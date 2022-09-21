@@ -1,15 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
-import { fetchCount } from './counterAPI';
+import { fetchCount } from './tunerAPI';
 
-export interface CounterState {
-  value: number;
-  status: 'idle' | 'loading' | 'failed';
+export interface TunerState {
+  frequency: number;
+  roundedFreq: number;
+  note: string;
 }
 
-const initialState: CounterState = {
-  value: 0,
-  status: 'idle',
+const initialState: TunerState = {
+  frequency: 0,
+  roundedFreq: 0,
+  note: '-'
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -18,7 +20,7 @@ const initialState: CounterState = {
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
 export const incrementAsync = createAsyncThunk(
-  'counter/fetchCount',
+  'tuner/fetchCount',
   async (amount: number) => {
     const response = await fetchCount(amount);
     // The value we return becomes the `fulfilled` action payload
@@ -26,8 +28,8 @@ export const incrementAsync = createAsyncThunk(
   }
 );
 
-export const counterSlice = createSlice({
-  name: 'counter',
+export const tunerSlice = createSlice({
+  name: 'tuner',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -63,12 +65,12 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export const { increment, decrement, incrementByAmount } = tunerSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectCount = (state: RootState) => state.counter.value;
+// in the slice file. For example: `useSelector((state: RootState) => state.tuner.value)`
+export const selectCount = (state: RootState) => state.tuner.value;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
@@ -81,4 +83,4 @@ export const incrementIfOdd =
     }
   };
 
-export default counterSlice.reducer;
+export default tunerSlice.reducer;
