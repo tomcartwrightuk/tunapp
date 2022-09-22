@@ -1,11 +1,20 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import tunerReducer from '../features/tuner/tunerSlice';
+import createSagaMiddleware from "redux-saga";
+import tuner from '../reducers/tuner';
+import tunerSaga from '../sagas/tuner'
+
+const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
-    tuner: tunerReducer,
+    tuner,
   },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().prepend(sagaMiddleware);
+  }
 });
+
+sagaMiddleware.run(tunerSaga);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

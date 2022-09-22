@@ -1,5 +1,5 @@
-import logo from './logo.svg';
-import { Tuner } from './features/tuner/Tuner';
+import logo from './images/logo.svg';
+import { Tuner } from '../Tuner/Tuner';
 import './App.css';
 
 function App() {
