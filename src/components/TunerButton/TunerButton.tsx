@@ -2,12 +2,13 @@ import styles from "../Tuner/Tuner.module.css";
 
 type TunerButtonProps = {
   toggleTuning: () => void;
+  stopTuning: () => void;
   isCurrentlyTuning: boolean;
 }
 
-export function TunerButton({ toggleTuning, isCurrentlyTuning }: TunerButtonProps) {
+export function TunerButton({ toggleTuning, stopTuning, isCurrentlyTuning }: TunerButtonProps) {
   return (
-    <button className={styles.button} onClick={toggleTuning}>
+    <button className={styles.button} onClick={isCurrentlyTuning ? stopTuning : toggleTuning}>
       {isCurrentlyTuning ? (
         <span>Stop tuning</span>
       ) : (

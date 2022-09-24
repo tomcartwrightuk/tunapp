@@ -1,6 +1,5 @@
-import { compose } from "../../utils/fp";
 import { connect } from "react-redux";
-import { toggleTuning } from "../../reducers/tuner";
+import { toggleTuning, stopTuning } from "../../reducers/tuner";
 import type { RootState } from "../../app/store"
 
 import { TunerButton } from "./TunerButton";
@@ -12,6 +11,9 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: any) => ({
   toggleTuning: () => {
     dispatch(toggleTuning())
+  },
+  stopTuning: () => {
+    dispatch(stopTuning())
   },
 });
 
