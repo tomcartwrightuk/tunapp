@@ -32,9 +32,12 @@ const calculatePitchAccuracy = function* (data: any) {
   const pitch = data.payload.pitch;
   const nearestNote = noteData.find((note) =>
     (pitch > note.lowerBound && pitch < note.upperBound)
-  );
+  ) || noteData[0];
+
   console.log({nearestNote });
-  yield put(setCurrentNote({currentNote: nearestNote}));
+  
+  const percentage = (pitch-nearestNote.lowerBound) / (nearestNote.upperBound - nearestNote.lowerBound)
+  yield put(setCurrentNote({currentNote: nearestNote, percentage }));
 }
 
 const startTuning = function* (): SagaIterator {

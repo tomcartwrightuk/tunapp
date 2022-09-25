@@ -12,6 +12,10 @@
   margin-bottom: 16px;
 }
 
+.gauge {
+  background-color: #999;
+}
+
 .value {
   font-size: 78px;
   padding-left: 16px;

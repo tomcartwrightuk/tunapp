@@ -10,6 +10,7 @@ export interface NoteInfo {
 export interface TunerState {
   currentlyTuning: boolean;
   currentPitch: number;
+  currentPercentage: number;
   roundedFreq: number;
   currentNote: NoteInfo;
 }
@@ -24,6 +25,7 @@ const initialNote: NoteInfo = {
 const initialState: TunerState = {
   currentlyTuning: false,
   currentPitch: 0,
+  currentPercentage: 0.5,
   roundedFreq: 0,
   currentNote: initialNote
 };
@@ -46,7 +48,8 @@ export const tunerSlice = createSlice({
     }),
     setCurrentNote: (state, action) => ({
       ...state,
-      currentNote: action.payload.currentNote
+      currentNote: action.payload.currentNote,
+      currentPercentage: action.payload.percentage
     })
   }
 });
