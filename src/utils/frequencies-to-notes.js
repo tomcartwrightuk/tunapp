@@ -19,13 +19,7 @@ const semitoneOffsets = [
     "C#", -8
   ],
   [
-    "Db", -8
-  ],
-  [
     "D", -7
-  ],
-  [
-    "D#", -6
   ],
   [
     "Eb", -6
@@ -40,22 +34,13 @@ const semitoneOffsets = [
     "F#", -3
   ],
   [
-    "Gb", -3
-  ],
-  [
     "G", -2
-  ],
-  [
-    "G#", -1
   ],
   [
     "Ab", -1
   ],
   [
     "A", 0
-  ],
-  [
-    "A#", 1
   ],
   [
     "Bb", 1
@@ -65,7 +50,38 @@ const semitoneOffsets = [
   ],
 ];
 
-export default() => (octaveRange.reduce((ob, [range, multiplier]) => semitoneOffsets.reduce((ob, [note, semitones]) => ({
-  ...ob,
-  [note + range]: A * Math.pow(2, (semitones + (multiplier * 12)) / 12)
-}), ob), {}));
+export default() => 
+octaveRange
+  .reduce(
+    (arr, [range, multiplier]) => semitoneOffsets
+      .reduce((ob, [note, semitones]) => (
+        arr.concat([
+          {
+            note: note + range,
+            frequency: (A * Math.pow(2, (semitones + (multiplier * 12)) / 12)).toFixed(2)
+          }  
+        ]))
+      , ob),
+    []);
+
+result.map((entry, i) => {
+  const previousNote = result[i-1];
+  const nextNote = result[i+1];
+  console.log(i)
+  if (i === 0) {
+    const upperBound = (previousNote.frequency + entry.frequency) / 2
+    return {
+      entry, upperBound, lowerBound: 5.00
+    }
+  }
+  if (i === result.length-1) {
+    const lowerBound = (nextNote.frequency + entry.frequency) / 2
+    return {
+      entry, upperBound: 5000.00, lowerBound
+    }
+  }
+
+  const lowerBound = (nextNote.frequency + entry.frequency) / 2
+  const upperBound = (previousNote.frequency + entry.frequency) / 2
+  return { ...entry, upperBound, lowerBound }
+})

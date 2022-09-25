@@ -1,6 +1,4 @@
-// Thanks to PitchDetect: https://github.com/cwilso/PitchDetect/blob/master/js/pitchdetect.js
-
-import noteFromFrequency from '../utils/note-from-frequency';
+// From PitchDetect: https://github.com/cwilso/PitchDetect/blob/master/js/pitchdetect.js
 import autoCorrelate from '../utils/auto-correlate';
 
 const noteIsSimilarEnough = (valueToDisplay, previousValueToDisplay) => { // Check threshold for number, or just difference for notes.
@@ -13,23 +11,6 @@ const noteIsSimilarEnough = (valueToDisplay, previousValueToDisplay) => { // Che
 
 const SMOOTHING_THRESHOLD = 5;
 const SMOOTHING_COUNT_THRESHOLD = 5;
-const NOTE_STRINGS = [
-  "C",
-  "C#",
-  "D",
-  "D#",
-  "E",
-  "F",
-  "F#",
-  "G",
-  "G#",
-  "A",
-  "A#",
-  "B"
-];
-const MEDIA_CONSTANTS = {
-  audio: true
-};
 
 export default(stream) => {
   return (emitter) => {
@@ -38,11 +19,6 @@ export default(stream) => {
     analyser.minDecibels = -100;
     analyser.maxDecibels = -10;
     analyser.smoothingTimeConstant = 0.85;
-
-    if (!navigator ?. mediaDevices ?. getUserMedia) {
-      alert('Sorry, getUserMedia is required for the app.')
-      return;
-    }
 
     const source = audioContext.createMediaStreamSource(stream);
     source.connect(analyser);
@@ -60,31 +36,27 @@ export default(stream) => {
         const autoCorrelateValue = autoCorrelate(buffer, audioContext.sampleRate)
 
         // Handle rounding
-        const valueToDisplay = autoCorrelateValue;
+        const pitch = autoCorrelateValue;
 
         if (autoCorrelateValue === -1) {
-          // document.getElementById('note').innerText = 'Too quiet...';
-          // console.log('too quiet')
           return;
         }
         // Check if this value has been within the given range for n iterations
-        if (noteIsSimilarEnough(valueToDisplay, previousValueToDisplay)) {
+        if (noteIsSimilarEnough(pitch, previousValueToDisplay)) {
           if (smoothingCount < SMOOTHING_COUNT_THRESHOLD) {
             smoothingCount++;
             return;
           } else {
-            previousValueToDisplay = valueToDisplay;
+            previousValueToDisplay = pitch;
             smoothingCount = 0;
           }
         } else {
-          previousValueToDisplay = valueToDisplay;
+          previousValueToDisplay = pitch;
           smoothingCount = 0;
           return;
         }
 
-        const note = NOTE_STRINGS[noteFromFrequency(autoCorrelateValue) % 12];
-
-        const payload = { frequency: valueToDisplay, note};
+        const payload = { pitch };
         emitter(payload)
         console.log(payload)
       }

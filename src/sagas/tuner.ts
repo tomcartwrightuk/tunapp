@@ -6,7 +6,8 @@ import {
   put
 } from "redux-saga/effects";
 import generateAnalyser from "./generateAnalyser";
-import { toggleTuning, stopTuning, setCurrentPitch } from '../reducers/tuner'
+import { toggleTuning, stopTuning, setCurrentPitch, setCurrentNote } from '../reducers/tuner'
+import noteData from '../utils/pitch-to-notes.json';
 
 const createAnalyzerChannel = (stream: any) => {
   const generator = generateAnalyser(stream)
@@ -27,6 +28,15 @@ const putCurrentPitch = function* (data: any) {
   yield put(setCurrentPitch(data));
 }
 
+const calculatePitchAccuracy = function* (data: any) {
+  const pitch = data.payload.pitch;
+  const nearestNote = noteData.find((note) =>
+    (pitch > note.lowerBound && pitch < note.upperBound)
+  );
+  console.log({nearestNote });
+  yield put(setCurrentNote({currentNote: nearestNote}));
+}
+
 const startTuning = function* (): SagaIterator {
   const stream = yield call(getStream);
   const analyserChannel = yield call(createAnalyzerChannel, stream);
@@ -36,4 +46,5 @@ const startTuning = function* (): SagaIterator {
 
 export default function*() {
   yield takeEvery(toggleTuning.type, startTuning);
+  yield takeEvery(setCurrentPitch.type, calculatePitchAccuracy);
 }

@@ -1,18 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 
+export interface NoteInfo {
+  pitch: number;
+  upperBound: number;
+  lowerBound: number;
+  note: string;
+}
 export interface TunerState {
   currentlyTuning: boolean;
-  currentFrequency: number;
+  currentPitch: number;
   roundedFreq: number;
-  note: string;
+  currentNote: NoteInfo;
+}
+
+const initialNote: NoteInfo = {
+  pitch: 0,
+  upperBound: 0,
+  lowerBound: 0,
+  note: '-'
 }
 
 const initialState: TunerState = {
   currentlyTuning: false,
-  currentFrequency: 0,
+  currentPitch: 0,
   roundedFreq: 0,
-  note: '-'
+  currentNote: initialNote
 };
 
 export const tunerSlice = createSlice({
@@ -29,12 +42,16 @@ export const tunerSlice = createSlice({
     }),
     setCurrentPitch: (state, action) => ({
       ...state,
-      currentFrequency: action.payload.frequency
+      currentPitch: action.payload.pitch
+    }),
+    setCurrentNote: (state, action) => ({
+      ...state,
+      currentNote: action.payload.currentNote
     })
   }
 });
 
-export const { toggleTuning, stopTuning, setCurrentPitch } = tunerSlice.actions;
+export const { toggleTuning, stopTuning, setCurrentPitch, setCurrentNote } = tunerSlice.actions;
 
 export const selectCurrentlyTuning = (state: RootState) => state.tuner.currentlyTuning;
 
