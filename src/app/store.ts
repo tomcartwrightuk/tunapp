@@ -1,7 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import createSagaMiddleware from "redux-saga";
 import tuner from '../reducers/tuner';
-import tunerSaga from '../sagas/tuner'
+import rootSaga from '../sagas'
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -14,7 +14,7 @@ export const store = configureStore({
   }
 });
 
-sagaMiddleware.run(tunerSaga);
+sagaMiddleware.run(rootSaga);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

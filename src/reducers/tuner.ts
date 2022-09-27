@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../app/store';
+import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../app/store";
 
 export interface NoteInfo {
   pitch: number;
@@ -13,49 +13,67 @@ export interface TunerState {
   currentPercentage: number;
   roundedFreq: number;
   currentNote: NoteInfo;
+  micPermissionGranted: boolean;
 }
 
 const initialNote: NoteInfo = {
   pitch: 0,
   upperBound: 0,
   lowerBound: 0,
-  note: '-'
-}
+  note: "-",
+};
 
 const initialState: TunerState = {
   currentlyTuning: false,
   currentPitch: 0,
   currentPercentage: 0.5,
   roundedFreq: 0,
-  currentNote: initialNote
+  currentNote: initialNote,
+  micPermissionGranted: true,
 };
 
 export const tunerSlice = createSlice({
-  name: 'tuner',
+  name: "tuner",
   initialState,
   reducers: {
     toggleTuning: (state) => ({
       ...state,
-      currentlyTuning: !state.currentlyTuning
+      currentlyTuning: !state.currentlyTuning,
     }),
     stopTuning: (state) => ({
       ...state,
-      currentlyTuning: false
+      currentlyTuning: false,
     }),
     setCurrentPitch: (state, action) => ({
       ...state,
-      currentPitch: action.payload.pitch
+      currentPitch: action.payload.pitch,
     }),
     setCurrentNote: (state, action) => ({
       ...state,
       currentNote: action.payload.currentNote,
-      currentPercentage: action.payload.percentage
-    })
-  }
+      currentPercentage: action.payload.percentage,
+    }),
+    appIsReady: (state) => ({
+      ...state,
+      appReady: true,
+    }),
+    setMicPermissionsNotGranted: (state) => ({
+      ...state,
+      micPermissionGranted: false,
+    }),
+  },
 });
 
-export const { toggleTuning, stopTuning, setCurrentPitch, setCurrentNote } = tunerSlice.actions;
+export const {
+  toggleTuning,
+  stopTuning,
+  setCurrentPitch,
+  setCurrentNote,
+  appIsReady,
+  setMicPermissionsNotGranted,
+} = tunerSlice.actions;
 
-export const selectCurrentlyTuning = (state: RootState) => state.tuner.currentlyTuning;
+export const selectCurrentlyTuning = (state: RootState) =>
+  state.tuner.currentlyTuning;
 
 export default tunerSlice.reducer;
