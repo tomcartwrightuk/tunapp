@@ -4,19 +4,40 @@ import {
   takeEvery,
   put
 } from "redux-saga/effects";
+import {
+  // MediaPermissionsError
+  // MediaPermissionsErrorType,
+  requestMediaPermissions
+} from 'mic-check';
+
 import { appIsReady, setMicPermissionsNotGranted } from '../reducers/tuner';
 
 const requestPermissionState = async () => {
-  return await window.ipc.getMicPermissionState();
+  const desktopPermissionState = await window.ipc.getMicPermissionState();
+  return desktopPermissionState === "granted";
+}
+
+const requestBrowserPermissionState = async () => {
+  try {
+    await requestMediaPermissions({audio: true, video: false});
+    return true;
+  } catch(err) {
+    console.log(err)
+    return false;
+  }
+};
+
+const crossPlatformPermssionCheck = async () => {
+  if (!window.ipc) {
+    return requestBrowserPermissionState()
+  } else {
+    return requestPermissionState()
+  }
 }
 
 const checkForPermissions = function*(): SagaIterator {
-  if (!window.ipc) {
-    console.log("no ipc")
-    return;
-  }
-  const permissionState = yield call(requestPermissionState);
-  if (permissionState !== "granted") {
+  const permissionState = yield call(crossPlatformPermssionCheck);
+  if (!permissionState) {
     yield put(setMicPermissionsNotGranted());
   }
 }

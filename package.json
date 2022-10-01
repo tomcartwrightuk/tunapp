@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "electron": "^20.2.0",
+    "mic-check": "^1.1.0",
     "react-gauge-chart": "^0.4.0",
     "redux-saga": "^1.2.1"
   }
