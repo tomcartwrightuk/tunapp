@@ -8,15 +8,13 @@ type AppProps = {
   onLoad: Function;
 };
 
-
 function App({ onLoad }: AppProps) {
-  console.log(onLoad)
   return (
     <OnLoad onLoad={onLoad}>
       <div className="App">
         <header className="App-header">
-          <Tuner />
           <MicPermission />
+          <Tuner />
         </header>
       </div>
     </OnLoad>
