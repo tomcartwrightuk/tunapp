@@ -6,3 +6,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'RockSalt-Regular';
+  src: local('RockSalt-Regular'), url('./assets/RockSalt-Regular.ttf') format('truetype');
+}
+
+body {
+  background: #020202;
+}
+
+h1 {
+  font-family: 'RockSalt-Regular';
+  font-size: 48px;
+  color: white;
+}

@@ -20,7 +20,7 @@ const initialNote: NoteInfo = {
   pitch: 0,
   upperBound: 0,
   lowerBound: 0,
-  note: "-",
+  note: "",
 };
 
 const initialState: TunerState = {
@@ -42,6 +42,12 @@ export const tunerSlice = createSlice({
     }),
     stopTuning: (state) => ({
       ...state,
+      currentNote: {
+        pitch: 0,
+        upperBound: 0,
+        lowerBound: 0,
+        note: "-"
+      },
       currentlyTuning: false,
     }),
     setCurrentPitch: (state, action) => ({

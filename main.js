@@ -1,11 +1,13 @@
-const {app, BrowserWindow, ipcMain, systemPreferences} = require('electron')
+const {app, Tray, Menu, nativeImage, BrowserWindow, ipcMain, systemPreferences} = require('electron')
 const path = require('path')
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 500,
+    height: 700,
     devTools: true,
+    // frame: false, - disables window buttons as well
+    titleBarStyle: 'hidden',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     }
@@ -21,7 +23,16 @@ function createWindow () {
 }
 
 app.whenReady().then(() => {
-  createWindow()
+  createWindow();
+  const icon = nativeImage.createFromPath('./src/assets/guitar-icon-16-white.png');
+  const tray = new Tray(icon);
+
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Start tuning', type: 'normal' },
+  ]);
+
+  tray.setToolTip('Twang: Tuner');
+  tray.setContextMenu(contextMenu);
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
