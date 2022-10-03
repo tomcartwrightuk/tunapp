@@ -1,8 +1,12 @@
 {
-  "name": "twang",
-  "version": "0.1.0",
+  "name": "Tunapp",
+  "version": "1.0.0",
   "private": true,
   "main": "main.js",
+  "build": {
+    "appId": "co.tunapp",
+    "mac": {}
+  },
   "dependencies": {
     "@headlessui/react": "^1.7.3",
     "@reduxjs/toolkit": "^1.8.5",
@@ -13,6 +17,7 @@
     "@types/node": "^17.0.45",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
+    "electron-squirrel-startup": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
@@ -21,11 +26,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "electron-forge start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-desktop": "electron ."
+    "start-desktop": "electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "eslintConfig": {
     "extends": [
@@ -46,6 +53,8 @@
     ]
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.66",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.66",
     "@heroicons/react": "^2.0.11",
     "autoprefixer": "^10.4.12",
     "electron": "^20.2.0",
@@ -54,5 +63,21 @@
     "react-gauge-chart": "^0.4.0",
     "redux-saga": "^1.2.1",
     "tailwindcss": "^3.1.8"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "./src/assets/icon.icns"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "background": "./src/assets/installer-background.png",
+            "format": "ULFO"
+          }
+        }
+      ]
+    }
   }
 }
