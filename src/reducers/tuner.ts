@@ -67,6 +67,10 @@ export const tunerSlice = createSlice({
       ...state,
       micPermissionGranted: false,
     }),
+    setMicPermissionsGranted: (state) => ({
+      ...state,
+      micPermissionGranted: true,
+    })
   },
 });
 
@@ -77,6 +81,7 @@ export const {
   setCurrentNote,
   appIsReady,
   setMicPermissionsNotGranted,
+  setMicPermissionsGranted,
 } = tunerSlice.actions;
 
 export const selectCurrentlyTuning = (state: RootState) =>

@@ -5,17 +5,14 @@ import {
   put
 } from "redux-saga/effects";
 import {
-  // MediaPermissionsError
-  // MediaPermissionsErrorType,
   requestMediaPermissions
 } from 'mic-check';
-import { appIsReady, setMicPermissionsNotGranted } from '../reducers/tuner';
+import { appIsReady, setMicPermissionsNotGranted, setMicPermissionsGranted } from '../reducers/tuner';
 
 const { ipc } = window;
 
 const requestPermissionState = async () => {
   const desktopPermissionState = await ipc.getMicPermissionState();
-  console.log({desktopPermissionState})
   return desktopPermissionState === "granted";
 }
 
@@ -39,20 +36,24 @@ const crossPlatformPermissionCheck = async () => {
 
 const checkForPermissions = function*(): SagaIterator {
   const permissionState = yield call(crossPlatformPermissionCheck);
-  console.log({permissionState})
   if (!permissionState) {
     yield put(setMicPermissionsNotGranted());
+  } else {
+    yield put(setMicPermissionsGranted());
   }
 }
 
 const requestPermissionIfMac = function*(): SagaIterator {
   const platform = yield call(ipc.platform);
   if (platform === "darwin") {
-    yield call(ipc.requestMicPermissions);
+    const permissionState = yield call(ipc.requestMicPermissions);
+    if (permissionState) {
+      yield put(setMicPermissionsGranted());
+    };
   }
 }
 
-export default function*() {
+export default function*(): SagaIterator {
   yield takeEvery(appIsReady.type, checkForPermissions);
   yield takeEvery(setMicPermissionsNotGranted.type, requestPermissionIfMac);
 }

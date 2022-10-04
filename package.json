@@ -67,7 +67,9 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "./src/assets/icon.icns"
+        "icon": "./src/assets/icon.icns",
+        "ignore": ["node_modules", "out", "src", "screenshots", "public"],
+        "asar": true
       },
       "makers": [
         {

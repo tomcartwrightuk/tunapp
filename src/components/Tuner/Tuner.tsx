@@ -17,7 +17,7 @@ export function Tuner({ currentNote, currentPercentage, show }: TunerProps) {
   return (
     <>
       {show && (
-        <div>
+        <div style={{ marginTop: "30%" }}>
           <div className={styles.gauge}>
             <GaugeChart
               id="gauge-chart"

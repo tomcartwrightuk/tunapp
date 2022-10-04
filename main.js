@@ -40,7 +40,10 @@ app.whenReady().then(() => {
   })
 })
 
-ipcMain.handle('request-mic-permissions', () => systemPreferences.askForMediaAccess('microphone'));
+ipcMain.handle('request-mic-permissions', () => {
+  console.log('Resting mic permissions');
+  return systemPreferences.askForMediaAccess('microphone');
+});
 ipcMain.handle('mic-permissions-state', () => systemPreferences.getMediaAccessStatus('microphone'));
 ipcMain.handle('get-platform', () => process.platform);
 
