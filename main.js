@@ -13,9 +13,8 @@ function createWindow () {
     }
   });
 
-  // mainWindow.loadFile('index.html')
+  // mainWindow.loadFile('build/index.html')
   mainWindow.loadURL('http://localhost:3010');
-  // mainWindow.loadURL('https://dangerous-electron-frontend.onrender.com');
 
   if (process.env.DEV_TOOLS) {
     mainWindow.webContents.openDevTools({ mode: 'detach' });
