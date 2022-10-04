@@ -17,7 +17,7 @@ function App({ onLoad, isCurrentlyTuning }: AppProps) {
       <div className="App">
         <header className="App-header">
           <MicPermission />
-          <h1 style={{position: "fixed", top: 32}}>Twang!</h1>
+          <h1 style={{position: "fixed", top: 32}}>Tunapp!</h1>
           <Tuner show={isCurrentlyTuning}/>
           <LandingImage show={!isCurrentlyTuning} />
           <TunerButton />

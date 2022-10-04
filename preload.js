@@ -11,7 +11,8 @@ const { contextBridge, ipcRenderer } = require("electron");
 // API
 const ipc = {
   getMicPermissionState: () => ipcRenderer.invoke('mic-permissions-state'),
-  requestMicPermissions: () => ipcRenderer.invoke('request-mic-permissions')
+  requestMicPermissions: () => ipcRenderer.invoke('request-mic-permissions'),
+  platform: () => ipcRenderer.invoke('get-platform')
 };
 
 contextBridge.exposeInMainWorld("ipc", ipc);

@@ -31,7 +31,7 @@ app.whenReady().then(() => {
     { label: 'Start tuning', type: 'normal' },
   ]);
 
-  tray.setToolTip('Twang: Tuner');
+  tray.setToolTip('Tunapp: Tuner');
   tray.setContextMenu(contextMenu);
 
   app.on('activate', function () {
@@ -41,8 +41,9 @@ app.whenReady().then(() => {
   })
 })
 
-ipcMain.handle('mic-permissions-state', () => systemPreferences.getMediaAccessStatus('microphone'));
 ipcMain.handle('request-mic-permissions', () => systemPreferences.askForMediaAccess('microphone'));
+ipcMain.handle('mic-permissions-state', () => systemPreferences.getMediaAccessStatus('microphone'));
+ipcMain.handle('get-platform', () => process.platform);
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
