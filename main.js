@@ -13,7 +13,7 @@ function createWindow () {
     }
   });
 
-  // mainWindow.loadFile('build/index.html')
+  // For production builds - mainWindow.loadFile('build/index.html')
   mainWindow.loadURL('http://localhost:3010');
 
   if (process.env.DEV_TOOLS) {
@@ -23,13 +23,13 @@ function createWindow () {
 
 app.whenReady().then(() => {
   createWindow();
+
+  // Setup the system menu
   const icon = nativeImage.createFromPath('./src/assets/guitar-icon-16-white.png');
   const tray = new Tray(icon);
-
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Start tuning', type: 'normal' },
   ]);
-
   tray.setToolTip('Tunapp: Tuner');
   tray.setContextMenu(contextMenu);
 
@@ -40,6 +40,8 @@ app.whenReady().then(() => {
   })
 })
 
+
+// System integration functions
 ipcMain.handle('request-mic-permissions', () => {
   console.log('Resting mic permissions');
   return systemPreferences.askForMediaAccess('microphone');

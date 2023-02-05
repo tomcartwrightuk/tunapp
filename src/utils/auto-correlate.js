@@ -27,9 +27,9 @@ export default (buffer, sampleRate) => {
   }
 
   // Walk down for r2
-  for (var i = 1; i < SIZE / 2; i++) {
-    if (Math.abs(buffer[SIZE - i]) < threshold) {
-      r2 = SIZE - i;
+  for (var g = 1; i < SIZE / 2; g++) {
+    if (Math.abs(buffer[SIZE - g]) < threshold) {
+      r2 = SIZE - g;
       break;
     }
   }
