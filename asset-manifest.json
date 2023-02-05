@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/tunapp/static/css/main.d17d4bea.css",
+    "main.js": "/tunapp/static/js/main.a8f24448.js",
+    "static/js/787.50cc0495.chunk.js": "/tunapp/static/js/787.50cc0495.chunk.js",
+    "static/media/landing-image.jpg": "/tunapp/static/media/landing-image.29c86951f46ecd52c112.jpg",
+    "static/media/RockSalt-Regular.ttf": "/tunapp/static/media/RockSalt-Regular.95f10efb43f0ccd46405.ttf",
+    "index.html": "/tunapp/index.html",
+    "main.d17d4bea.css.map": "/tunapp/static/css/main.d17d4bea.css.map",
+    "main.a8f24448.js.map": "/tunapp/static/js/main.a8f24448.js.map",
+    "787.50cc0495.chunk.js.map": "/tunapp/static/js/787.50cc0495.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d17d4bea.css",
+    "static/js/main.a8f24448.js"
+  ]
+}
